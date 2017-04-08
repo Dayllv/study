@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>开始使用Layui</title>
+  <link rel="stylesheet" href="css/layui.css">
+</head>
+<body>
+ 
+<div class="layui-form-label">
+    <div class="layui-input-block">
+        <select name="" id="">
+            <option value="">111111</option>
+        </select>
+    </div>
+</div>
+<div id="demoPage">
+    
+    
+</div>
+ 
+<script src="../layui/layui.js"></script>
+<script>
+ 
+//一般直接写在一个js文件中
+layui.use(['layer', 'form','laypage'], function(){
+  var layer = layui.layer,laypage=layui.laypage
+  ,form = layui.form();
+    
+    laypage({
+        cont:'demoPage',
+        pages:5,
+        first:1,
+        last:5,
+        
+        
+        
+        
+        
+        
+    })
+    
+    
+    
+});
+</script> 
+  
+</body>
+</html>
