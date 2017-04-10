@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!--作者：DayLv
+    2017.4.2
+    122821315@qq.com
+-->
+<html>    
+<head>
+    <meta charset="UTF-8">
+    <title>try</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <script src="js/common/jquery-3.1.1.min.js"></script>
+    <script src="js/common/bootstrap.min.js"></script>
+    <script src="vue/dist/vue.min.js"></script>
+    <script src="layui/layui.js"></script>
+    
+    
+    <style>
+        body{font-family: "微软雅黑";padding: 100px;background: #ebe6e6;}
+        hr{border:2px solid black}
+        #role{min-width: 300px;max-width: 400px;margin: 0 auto;}
+        #alert{padding: 20px 50px;text-align: center;margin-top:50px;display: none;}
+        #alert input{margin: 0 10px;}
+    </style>
+    
+</head>
+<body>
+    <div class="wrap">
+        <div class="text-center h1">
+            欢迎来到我的实例一
+        </div>
+        <div class="content" id="myvue">
+            <form action="" role="form" id="role" class="">
+                <div class="userinfo form-group">
+                    <label for="username">用户</label>
+                    <input class="form-control" type="text" id="username" v-model='username' placeholder="请输入用户名">
+                </div>
+                <div class="userage form-group">
+                    <label for="userage">年纪</label>    
+                    <input class="form-control" type="text" v-model="age" placeholder="请输入年纪">
+                </div>
+                <div class="userhobbit form-group">
+                    <label for="userhobbit">爱好</label>    
+                    <input class="form-control" type="text" v-model="hobbity" placeholder="请输入爱好">
+                </div>
+                <div class="settings text-right">
+                    <input type="button" class="btn btn-info" value="添加" @click='add()'>
+                    <button type="reset" class=" btn btn-danger" value="">重置</button>
+                </div> 
+            </form>
+            <hr/>
+             <form action="">
+                 <table class='table table-bordered table-hover'>
+                     <h3 class="text-center">用户列表信息</h3>
+                     <tr class="text-center">
+                         <th class="text-center">序号</th>    
+                         <th class="text-center">名字</th>    
+                         <th class="text-center">年纪</th>    
+                         <th class="text-center">爱好</th>    
+                         <th class="text-center">操作</th>    
+                     </tr>
+                     <tr v-for='(item,index) in dataList' :index='index'  v-show='dataList.length!=0'>
+                         <th class="text-center">{{index+1}}</th>
+                         <th class="text-center">{{item.username}}</th>
+                         <th class="text-center">{{item.age}}</th>
+                         <th class="text-center">{{item.hobbity}}</th>
+                         <th class="text-center">
+                             <input class="btn btn-danger btn-sm"  type="button"  @click='shutDown(index)' value="删除"></input>
+                         </th>
+                     </tr>
+                     <tr v-show="dataList==0">
+                         <th class="text-center text-muted" colspan="5">暂无数据</th>
+                     </tr>
+                 </table>
+             </form>      
+             
+<!--             弹出层     -->
+             <div id="alert" >
+                 <input type="button" class="btn btn-success btn-sm" type="button" value="确定" @click='delList(nowindex),msgClose()'>    
+                 <input type="button" class="btn btn-danger btn-sm" type="button" value="取消" @click='msgClose()'>    
+             </div>
+             
+        </div>
+    </div>
+    <script>
+        $(function(){
+//            调用模块
+            layui.use('layer',function(){
+                var layer=layui.layer;
+            });
+            
+            var myVue=new Vue({
+                el:'#myvue',
+                data:{
+                    dataList:[],
+                    username:'',
+                    age:'',
+                    hobbity:'',
+                    nowindex:-1
+                },
+                methods:{
+                    shutDown:function(index){
+                        layer.open({
+                            type:1,
+                            title:'确定要删除么？',
+                            content:$('#alert'),
+                            area:['300px','200px'],
+                            shade:0.5
+                        });
+                       this.nowindex=index;
+                    },
+                    //添加列表
+                    add:function(){
+                        if(!this.username||!this.age||!this.hobbity)return;
+                        this.dataList.push({
+                            username:this.username,
+                            age:this.age,
+                            hobbity:this.hobbity,
+                        });
+                            this.username='';
+                            this.age='';
+                            this.hobbity='';
+                    },
+                    //删除列表
+                    delList:function(n){
+                        this.dataList.splice(n,1)
+                    },
+                    //弹出层关闭
+                    msgClose:function(){
+                        layer.closeAll();
+                    }
+                }
+                
+            })
+            
+        })
+    
+    </script>           
+</body>
+</html>
